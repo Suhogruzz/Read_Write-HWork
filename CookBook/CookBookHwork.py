@@ -22,9 +22,15 @@ def create_cookbook(file):
 def get_shop_list_by_dishes(dishes, person_count, cook_book):
     for dish in dishes:
         for ingredient in cook_book.get(dish):
-            shop_list_by_dishes[ingredient.get('ingredient_name')] = \
-                {'measure': ingredient.get('measure'), 'quantity': ingredient.get('quantity') * person_count}
+            if ingredient.get('ingredient_name') in shop_list_by_dishes.keys():
+                added_quantity = {'quantity': ingredient.get('quantity') * person_count +
+                                              shop_list_by_dishes[ingredient.get('ingredient_name')]['quantity']}
+                shop_list_by_dishes[ingredient.get('ingredient_name')].update(added_quantity)
+            else:
+                shop_list_by_dishes[ingredient.get('ingredient_name')] = \
+                    {'measure': ingredient.get('measure'), 'quantity': ingredient.get('quantity') * person_count}
     return shop_list_by_dishes
+
 
 
 
